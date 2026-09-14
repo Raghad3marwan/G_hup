@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import { StateManager } from '../engine/core/state/StateManager.js';
+import { EventBus } from '../engine/rules/EventBus.js';
+import { interactHotspot } from '../engine/domains/crime-scene/CrimeSceneDomain.js';
+const stateManager=new StateManager({crimeSceneState:{},flags:{}}); const eventBus=new EventBus();
+const caseData={crimeScenes:[{id:'s1',hotspots:[{id:'h1',type:'evidence',targetRef:'e1'}]}]};
+let payload=null; eventBus.on('crimeScene:hotspotInteracted',p=>payload=p);
+interactHotspot({sceneId:'s1',hotspotId:'h1',caseData,stateManager,eventBus});
+assert.equal(stateManager.getState().crimeSceneState.s1.discoveredHotspots.h1.discovered,true);
+assert.equal(payload.targetRef,'e1');
+const first=stateManager.getState().crimeSceneState.s1.discoveredHotspots.h1.discoveredAt;
+interactHotspot({sceneId:'s1',hotspotId:'h1',caseData,stateManager,eventBus});
+assert.equal(stateManager.getState().crimeSceneState.s1.discoveredHotspots.h1.discoveredAt,first);
+console.log('Crime Scene Domain tests passed ✓');

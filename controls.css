@@ -1,0 +1,170 @@
+/**
+ * Controls — أزرار، حقول إدخال، مؤشرات حالة، شارات
+ * -----------------------------------------------------
+ * مصممة لهوية "جنايات" تحديدًا، وليست شكل مكتبة UI عامة.
+ */
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+.jn-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--jn-space-2);
+  font-family: var(--jn-font-arabic);
+  font-size: var(--jn-text-body);
+  font-weight: 600;
+  padding: var(--jn-space-2) var(--jn-space-4);
+  border-radius: var(--jn-radius-md);
+  border: 1px solid transparent;
+  transition:
+    background-color var(--jn-duration-base) var(--jn-ease-standard),
+    border-color var(--jn-duration-base) var(--jn-ease-standard),
+    color var(--jn-duration-base) var(--jn-ease-standard),
+    transform var(--jn-duration-micro) var(--jn-ease-standard);
+  min-height: 40px; /* هدف ملائم للمس */
+}
+
+.jn-btn:active { transform: scale(0.98); }
+
+.jn-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.jn-btn--primary {
+  background: var(--jn-accent);
+  color: var(--jn-void);
+}
+.jn-btn--primary:hover { background: var(--jn-accent-strong); }
+
+.jn-btn--secondary {
+  background: var(--jn-surface);
+  border-color: var(--jn-border-strong);
+  color: var(--jn-text);
+}
+.jn-btn--secondary:hover { background: var(--jn-surface-hover); }
+
+.jn-btn--ghost {
+  background: transparent;
+  color: var(--jn-accent);
+}
+.jn-btn--ghost:hover { background: var(--jn-surface-hover); }
+
+.jn-btn--danger {
+  background: transparent;
+  border-color: var(--jn-danger);
+  color: var(--jn-danger);
+}
+.jn-btn--danger:hover { background: rgba(163, 66, 58, 0.12); }
+
+.jn-btn--icon {
+  padding: var(--jn-space-2);
+  width: 40px;
+  height: 40px;
+  border-radius: var(--jn-radius-md);
+  background: transparent;
+  color: var(--jn-text-muted);
+}
+.jn-btn--icon:hover { background: var(--jn-surface-hover); color: var(--jn-text); }
+.jn-btn--icon[aria-current="page"],
+.jn-btn--icon.is-active {
+  color: var(--jn-accent);
+  background: var(--jn-surface-active);
+}
+
+.jn-btn__icon svg { width: 20px; height: 20px; }
+
+/* ============================================================
+   INPUTS
+   ============================================================ */
+
+.jn-input {
+  width: 100%;
+  background: var(--jn-surface);
+  border: 1px solid var(--jn-border);
+  border-radius: var(--jn-radius-md);
+  color: var(--jn-text);
+  padding: var(--jn-space-2) var(--jn-space-3);
+  font-size: var(--jn-text-body);
+  min-height: 40px;
+  transition: border-color var(--jn-duration-base) var(--jn-ease-standard),
+              box-shadow var(--jn-duration-base) var(--jn-ease-standard);
+}
+
+.jn-input::placeholder { color: var(--jn-text-faint); }
+
+.jn-input:focus {
+  outline: none;
+  border-color: var(--jn-accent);
+  box-shadow: 0 0 0 3px rgba(198, 149, 82, 0.18);
+}
+
+/* ============================================================
+   STATUS INDICATOR — لا يعتمد على اللون وحده (شكل مختلف لكل حالة)
+   ============================================================ */
+
+.jn-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--jn-space-2);
+  font-size: var(--jn-text-small);
+  color: var(--jn-text-muted);
+}
+
+.jn-status__marker {
+  width: 9px;
+  height: 9px;
+  flex: none;
+  background: currentColor;
+}
+
+.jn-status--success { color: var(--jn-success); }
+.jn-status--success .jn-status__marker { border-radius: 50%; }
+
+.jn-status--warning { color: var(--jn-warning); }
+.jn-status--warning .jn-status__marker { transform: rotate(45deg); }
+
+.jn-status--danger { color: var(--jn-danger); }
+.jn-status--danger .jn-status__marker {
+  background: transparent;
+  width: 0; height: 0;
+  border-inline: 5px solid transparent;
+  border-bottom: 9px solid currentColor;
+}
+
+.jn-status--digital { color: var(--jn-digital-accent); }
+.jn-status--digital .jn-status__marker {
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px currentColor;
+  background: transparent;
+  width: 7px; height: 7px;
+}
+
+/* ============================================================
+   NOTIFICATION BADGE
+   ============================================================ */
+
+.jn-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: var(--jn-radius-full);
+  background: var(--jn-danger);
+  color: var(--jn-paper-clean);
+  font-family: var(--jn-font-mono);
+  font-size: 0.6875rem;
+  line-height: 1;
+}
+
+.jn-badge--floating {
+  position: absolute;
+  inset-block-start: 4px;
+  inset-inline-end: 4px;
+}

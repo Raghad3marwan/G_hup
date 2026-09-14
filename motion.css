@@ -1,0 +1,43 @@
+/**
+ * Motion — حركة قصيرة ومدروسة، تخدم الإحساس ولا تستعرض نفسها.
+ * تحترم prefers-reduced-motion (الحركات تُعطَّل بالكامل عبر هذا الاستعلام).
+ */
+
+@keyframes jn-section-enter {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes jn-paper-open {
+  from { opacity: 0; transform: translateY(4px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes jn-pop {
+  0% { transform: scale(0.85); opacity: 0; }
+  60% { transform: scale(1.04); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+.jn-anim-section-enter {
+  animation: jn-section-enter var(--jn-duration-panel) var(--jn-ease-standard) both;
+}
+
+.jn-anim-paper-open {
+  animation: jn-paper-open var(--jn-duration-panel) var(--jn-ease-standard) both;
+}
+
+.jn-anim-pop {
+  animation: jn-pop var(--jn-duration-base) var(--jn-ease-standard) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jn-anim-section-enter,
+  .jn-anim-paper-open,
+  .jn-anim-pop {
+    animation: none !important;
+  }
+  * {
+    transition-duration: 0.001ms !important;
+  }
+}

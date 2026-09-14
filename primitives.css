@@ -1,0 +1,312 @@
+/**
+ * Investigation Archive Primitives
+ * -----------------------------------
+ * عناصر بصرية أولية قابلة لإعادة الاستخدام، مبنية على المرجع البصري
+ * (الأرشيف + Dossier). هذه ليست "Cards" عامة — كل عنصر له هندسة ومنطق
+ * مادي مختلف (ورق، معدن، جلد ملف، شاشة رقمية)، وليس نفس المستطيل
+ * بخلفية وborder-radius متكررين.
+ *
+ * تُستخدم هنا فقط داخل Visual Showcase لاختبار الهوية (هذه المرحلة)،
+ * وستُستخدم لاحقًا داخل Person Dossier / Evidence / Documents (مراحل قادمة).
+ */
+
+/* ============================================================
+   1) PAPER — النظام الورقي
+   ============================================================ */
+
+.jn-paper {
+  position: relative;
+  background: var(--jn-paper);
+  color: var(--jn-ink);
+  border-radius: 2px;
+  box-shadow: var(--jn-shadow-paper);
+  padding: var(--jn-space-5);
+  /* نسيج ورقي خفيف جدًا عبر تدرجات شعاعية متراكبة — بلا صورة خارجية */
+  background-image:
+    radial-gradient(circle at 18% 22%, rgba(0, 0, 0, 0.02) 0, transparent 40%),
+    radial-gradient(circle at 82% 68%, rgba(0, 0, 0, 0.025) 0, transparent 45%),
+    radial-gradient(circle at 50% 95%, rgba(0, 0, 0, 0.02) 0, transparent 50%);
+}
+
+.jn-paper h1, .jn-paper h2, .jn-paper h3 { color: var(--jn-ink); }
+.jn-paper .jn-text-muted-on-paper { color: var(--jn-ink-muted); }
+
+.jn-paper--clean {
+  background: var(--jn-paper-clean);
+  box-shadow: var(--jn-shadow-paper);
+}
+
+.jn-paper--report {
+  border-top: 3px solid var(--jn-ink);
+  padding-top: var(--jn-space-4);
+}
+
+.jn-paper--aged {
+  background: var(--jn-paper-aged);
+  box-shadow:
+    inset 0 0 40px rgba(43, 37, 32, 0.18),
+    var(--jn-shadow-paper);
+}
+
+.jn-paper--note {
+  background: var(--jn-paper-clean);
+  padding: var(--jn-space-4);
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 27px,
+      rgba(43, 37, 32, 0.08) 28px
+    );
+  background-position: 0 var(--jn-space-6);
+}
+
+/* استخدام باعتدال شديد — ورقة واحدة مائلة قليلًا، وليس كل الأوراق */
+.jn-paper--tilt-right { transform: rotate(0.6deg); }
+.jn-paper--tilt-left { transform: rotate(-0.6deg); }
+
+/* ركن مطوي بسيط — اختياري */
+.jn-paper--folded-corner::after {
+  content: '';
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.12) 50%);
+  border-radius: 0 2px 0 0;
+}
+
+/* ============================================================
+   2) FOLDER SURFACE + FILE TAB
+   ============================================================ */
+
+.jn-folder {
+  position: relative;
+  background: var(--jn-paper-aged);
+  border-radius: 2px 2px 6px 6px;
+  box-shadow: var(--jn-shadow-paper);
+  padding: var(--jn-space-6) var(--jn-space-5) var(--jn-space-5);
+  color: var(--jn-ink);
+}
+
+.jn-folder h1, .jn-folder h2, .jn-folder h3 { color: var(--jn-ink); }
+
+.jn-folder-tab {
+  position: absolute;
+  inset-block-start: -14px;
+  inset-inline-start: var(--jn-space-5);
+  background: var(--jn-brass);
+  color: var(--jn-void);
+  font-size: var(--jn-text-small);
+  font-weight: 600;
+  padding: var(--jn-space-1) var(--jn-space-3);
+  /* شكل لسان الملف: شبه منحرف بحافة علوية مقصوصة قليلًا */
+  clip-path: polygon(8% 0, 92% 0, 100% 100%, 0% 100%);
+}
+
+/* ============================================================
+   3) STAMP — ختم
+   ============================================================ */
+
+.jn-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--jn-space-1);
+  border: 2px solid currentColor;
+  border-radius: 4px;
+  padding: 2px var(--jn-space-3);
+  font-size: var(--jn-text-small);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transform: rotate(-6deg);
+  opacity: 0.92;
+}
+
+.jn-stamp--danger { color: var(--jn-danger); }
+.jn-stamp--accent { color: var(--jn-brass); }
+.jn-stamp--success { color: var(--jn-success); }
+
+/* ============================================================
+   4) PAPERCLIP
+   ============================================================ */
+
+.jn-paperclip {
+  position: absolute;
+  inset-block-start: -10px;
+  inset-inline-start: var(--jn-space-4);
+  width: 22px;
+  height: 38px;
+  pointer-events: none;
+}
+
+/* ============================================================
+   5) REFERENCE NUMBER — رقم ملف/دليل
+   ============================================================ */
+
+.jn-reference-number {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--jn-font-mono);
+  font-size: var(--jn-text-mono);
+  letter-spacing: 0.04em;
+  padding-inline: var(--jn-space-2);
+  border-inline: 1px solid currentColor;
+  opacity: 0.85;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* ============================================================
+   6) ARCHIVE LABEL — بطاقة فهرسة أرشيفية
+   ============================================================ */
+
+.jn-archive-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--jn-space-2);
+  font-size: var(--jn-text-small);
+  color: var(--jn-text-muted);
+  padding-inline-start: var(--jn-space-3);
+  border-inline-start: 2px solid var(--jn-brass);
+}
+
+/* ============================================================
+   7) PINNED PHOTO FRAME
+   ============================================================ */
+
+.jn-photo-frame {
+  position: relative;
+  display: inline-block;
+  background: var(--jn-paper-clean);
+  padding: var(--jn-space-2) var(--jn-space-2) var(--jn-space-5);
+  box-shadow: var(--jn-shadow-paper);
+  border-radius: 1px;
+}
+
+.jn-photo-frame img,
+.jn-photo-frame .jn-photo-frame__placeholder {
+  display: block;
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  background: var(--jn-surface);
+}
+
+.jn-photo-frame__caption {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: var(--jn-space-1);
+  text-align: center;
+  font-family: var(--jn-font-mono);
+  font-size: 0.6875rem;
+  color: var(--jn-ink-muted);
+  direction: ltr;
+}
+
+.jn-photo-frame::before {
+  content: '';
+  position: absolute;
+  inset-block-start: -7px;
+  inset-inline-start: 50%;
+  transform: translateX(50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #d8dade, var(--jn-metal) 70%);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================================
+   8) DIGITAL SURFACE — لغة الرقمي (CCTV/هاتف/سجلات)
+   ============================================================ */
+
+.jn-digital-surface {
+  position: relative;
+  background: #0e1517;
+  border-radius: var(--jn-radius-sm);
+  box-shadow: var(--jn-shadow-inset-digital), var(--jn-shadow-panel);
+  color: var(--jn-text);
+  padding: var(--jn-space-4);
+  overflow: hidden;
+}
+
+.jn-digital-surface::before {
+  /* خطوط مسح رقمية خفيفة جدًا — تلميح لا استعراض */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(95, 168, 163, 0.035) 0,
+    rgba(95, 168, 163, 0.035) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+}
+
+.jn-digital-surface__led {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--jn-digital);
+  box-shadow: 0 0 6px 1px rgba(95, 168, 163, 0.7);
+  margin-inline-end: var(--jn-space-2);
+}
+
+.jn-digital-surface__label {
+  font-family: var(--jn-font-mono);
+  font-size: var(--jn-text-mono);
+  color: var(--jn-digital-accent);
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* ============================================================
+   PHASE 2 POLISH — depth بدون Vintage مبالغ فيه
+   ============================================================ */
+
+.jn-paper {
+  border: 1px solid rgba(43, 37, 32, 0.08);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.45) inset,
+    0 12px 26px rgba(0,0,0,.18),
+    0 2px 5px rgba(0,0,0,.16);
+}
+
+.jn-paper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(43,37,32,.025), transparent 3%, transparent 97%, rgba(43,37,32,.018)),
+    linear-gradient(rgba(255,255,255,.08), transparent 7%, transparent 93%, rgba(43,37,32,.025));
+  mix-blend-mode: multiply;
+}
+
+.jn-folder {
+  border: 1px solid rgba(43, 37, 32, 0.12);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.22) inset,
+    0 22px 52px rgba(0,0,0,.28),
+    0 4px 10px rgba(0,0,0,.17);
+  background-image:
+    linear-gradient(90deg, rgba(43,37,32,.035), transparent 8%, transparent 92%, rgba(43,37,32,.025)),
+    radial-gradient(circle at 22% 14%, rgba(255,255,255,.16), transparent 38%);
+}
+
+.jn-folder-tab {
+  box-shadow: 0 3px 5px rgba(0,0,0,.16);
+  text-transform: uppercase;
+  letter-spacing: .055em;
+}
+
+.jn-photo-frame {
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.6) inset,
+    0 16px 30px rgba(0,0,0,.24),
+    0 2px 4px rgba(0,0,0,.16);
+}

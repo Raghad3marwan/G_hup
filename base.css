@@ -1,0 +1,115 @@
+/**
+ * Base — إعادة ضبط + إعدادات عامة + RTL
+ * -----------------------------------------
+ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  min-width: 0; /* يمنع overflow أفقي غير مقصود من عناصر flex/grid */
+}
+
+html {
+  direction: rtl;
+  color-scheme: dark;
+}
+
+/**
+ * ملاحظة تصحيحية مهمة: كانت هذه القاعدة سابقًا `html, body { height:100%;
+ * overflow-x:hidden; }`. هذا يبدو حلًا آمنًا شائعًا، لكنه يخفي عطلاً حقيقيًا:
+ * حسب مواصفة CSS Overflow، عند ضبط overflow-x على قيمة غير visible بينما
+ * overflow-y متروك على الافتراضي (visible)، يُفرض ترقية overflow-y إلى "auto"
+ * تلقائيًا على نفس العنصر. مع height:100% (ارتفاع ثابت، وليس حدًا أدنى)، كان
+ * هذا يحوّل body إلى حاوية تمرير داخلية مقصوصة بارتفاع شاشة واحدة فقط — أي
+ * محتوى يتجاوز ذلك يبقى صحيحًا في الحسابات (getBoundingClientRect) لكنه لا
+ * يُرسم للمستخدم أبدًا لأنه محصور داخل تمرير body الداخلي بدل تمرير الصفحة.
+ * هذا هو السبب الحقيقي وراء "الفجوة الفارغة" التي ظهرت في Visual Showcase.
+ *
+ * الحل: عدم ضبط أي ارتفاع ثابت على body إطلاقًا (يبقى auto ليكبر حسب
+ * المحتوى بلا أي قصّ)، ومنع Overflow الأفقي يقتصر على html فقط، حيث overflow
+ * الجذر يُطبَّق على نافذة العرض نفسها ولا يُنشئ صندوق قصّ داخلي منفصل بنفس
+ * الطريقة. `.jn-shell` نفسه (shell.css) يضبط `min-height:100vh` مباشرة،
+ * وهو ما يكفي فعليًا لتغطية الشاشة دون الحاجة لهذه القاعدة على html/body.
+ */
+html {
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  background: var(--jn-void);
+  color: var(--jn-text);
+  font-family: var(--jn-font-arabic);
+  font-size: var(--jn-text-body);
+  line-height: var(--jn-leading-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+  font-family: var(--jn-font-arabic);
+  font-weight: 600;
+  line-height: var(--jn-leading-heading);
+  color: var(--jn-text);
+}
+
+h1 { font-size: var(--jn-text-h1); }
+h2 { font-size: var(--jn-text-h2); }
+h3 { font-size: var(--jn-text-h3); }
+
+p { margin: 0 0 var(--jn-space-3); }
+
+/* الخط التقني: أرقام ملفات، طوابع زمنية، أكواد — وليس نصًا عربيًا عاديًا أبدًا */
+.jn-mono {
+  font-family: var(--jn-font-mono);
+  font-size: var(--jn-text-mono);
+  line-height: var(--jn-leading-mono);
+  direction: ltr;
+  unicode-bidi: isolate; /* يمنع اختلاط اتجاه الأرقام/اللاتيني وسط جملة عربية */
+}
+
+button, input, textarea, select {
+  font-family: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+img, svg { display: block; max-width: 100%; }
+
+ul, ol { margin: 0; padding: 0; list-style: none; }
+
+a { color: inherit; }
+
+/* حالة التركيز مرئية دائمًا عبر لوحة المفاتيح — لا نعتمد على المتصفح الافتراضي وحده */
+:focus-visible {
+  outline: 2px solid var(--jn-accent);
+  outline-offset: 2px;
+  border-radius: var(--jn-radius-sm);
+}
+
+/* شريط تمرير هادئ يتماشى مع الهوية الداكنة (تحسين اختياري، لا يكسر شيئًا إن لم يُدعم) */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--jn-border-strong) transparent;
+}
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb { background: var(--jn-border-strong); border-radius: var(--jn-radius-full); }
+*::-webkit-scrollbar-track { background: transparent; }
+
+.jn-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

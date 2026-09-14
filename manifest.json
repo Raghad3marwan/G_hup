@@ -1,0 +1,9 @@
+{
+  "id": "case-natural-death",
+  "title": "الموت الذي بدا طبيعيًا",
+  "dataFormat": "single",
+  "defaultSection": "caseFile",
+  "enabledSections": ["caseFile","crimeScene","evidence","people","lab","board","deduction"],
+  "assignmentScreen": {"enabled": false},
+  "notes": "قضية جنايات: الموت الذي بدا طبيعيًا — مبنية من ملفات المراجعة المعتمدة."
+}

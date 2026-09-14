@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import { StateManager } from '../engine/core/state/StateManager.js';
+import { synchronizeCaseProgress } from '../engine/core/progression/ProgressionEngine.js';
+const caseData={evidence:[{id:'A',initiallyAvailable:true},{id:'B',unlockWhen:{type:'flagTrue',key:'M1'}}],derivedFacts:[{id:'M1',text:'fact one',when:{type:'evidenceExamined',evidenceId:'A'}}]};
+const sm=new StateManager({evidenceState:{},flags:{},notes:{automaticFacts:[],personalNotes:[]}});
+synchronizeCaseProgress({caseData,stateManager:sm,now:1});
+assert.equal(sm.getState().evidenceState.A.discovery,'discovered');
+sm.setState(s=>({...s,evidenceState:{...s.evidenceState,A:{...s.evidenceState.A,examination:'examined'}}}));
+synchronizeCaseProgress({caseData,stateManager:sm,now:2});
+assert.equal(sm.getState().flags.M1,true);
+assert.equal(sm.getState().evidenceState.B.discovery,'discovered');
+assert.equal(sm.getState().notes.automaticFacts.filter(x=>x.source==='M1').length,1);
+synchronizeCaseProgress({caseData,stateManager:sm,now:3});
+assert.equal(sm.getState().notes.automaticFacts.filter(x=>x.source==='M1').length,1,'fact should not duplicate');
+console.log('Progression Engine ✓ PASSED');

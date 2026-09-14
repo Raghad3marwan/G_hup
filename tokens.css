@@ -1,0 +1,133 @@
+/**
+ * Design Tokens — جنايات
+ * ------------------------
+ * مصدر الحقيقة الوحيد للألوان والمقاييس والحركة. لا يُستخدم أي لون أو
+ * مسافة "حرة" (Magic Value) خارج هذا الملف في أي CSS آخر بالمشروع —
+ * كل شيء يُشتق من هذه المتغيرات.
+ *
+ * فلسفة اللون: هوية "جنايات" مبنية على تمييز بصري بين عالمين داخل نفس
+ * المساحة الداكنة:
+ *   - عالم الورق/الأرشيف (دافئ): Brass (نحاسي) للتمييز والعناصر الأساسية،
+ *     Oxide (أحمر أكسيد/خاتم) للتحذير والأختام، Paper (ورق دافئ) للمستندات.
+ *   - عالم الرقمي (بارد): Digital Teal للشاشات والأجهزة والسجلات الرقمية.
+ * هذا التمايز الحراري (دافئ = ورقي، بارد = رقمي) هو الأداة الأساسية لمنع
+ * الواجهة من التحوّل إلى "كل شيء بنفس الشكل" — انظر primitives.css.
+ */
+
+:root {
+  /* ===== ألوان: القاعدة الداكنة (Void / Surface) ===== */
+  --jn-void: #0b0c0e;
+  --jn-void-raised: #101214;
+  --jn-surface: #17191c;
+  --jn-surface-hover: #1e2124;
+  --jn-surface-active: #24282c;
+  --jn-border: #2a2d31;
+  --jn-border-strong: #3a3e43;
+
+  /* ===== ألوان: الورق (Paper / Ink) ===== */
+  --jn-paper: #ece4d0;
+  --jn-paper-clean: #f6f2e7;
+  --jn-paper-aged: #ddd0b2;
+  --jn-ink: #2b2520;
+  --jn-ink-muted: #6a6153;
+
+  /* ===== ألوان: النص على الخلفية الداكنة ===== */
+  --jn-text: #e2d4b8;
+  --jn-text-muted: #b1a58e;
+  --jn-text-faint: #5f6166;
+
+  /* ===== ألوان: الهوية الدلالية (4 درجات أساسية) ===== */
+  --jn-brass: #c69552;       /* التمييز الأساسي: أختام، عناصر أرشيفية، أزرار رئيسية */
+  --jn-brass-strong: #d9ab6c;
+  --jn-oxide: #a3423a;       /* تحذير/خطر: أختام "سري"، حالات حرجة */
+  --jn-oxide-strong: #c05850;
+  --jn-sage: #6a9678;        /* نجاح: تحليل مكتمل، تأكيد */
+  --jn-sage-strong: #82ac8f;
+  --jn-digital: #5fa8a3;     /* عالم الرقمي: شاشات، CCTV، سجلات */
+  --jn-digital-strong: #78bdb8;
+  --jn-metal: #9aa2a8;       /* مشابك الورق، الدبابيس — مادة محايدة منفصلة عن النحاس */
+
+  /* أسماء دلالية تُستخدم في بقية الملفات بدل الأسماء الخام أعلاه */
+  --jn-accent: var(--jn-brass);
+  --jn-accent-strong: var(--jn-brass-strong);
+  --jn-danger: var(--jn-oxide);
+  --jn-danger-strong: var(--jn-oxide-strong);
+  --jn-success: var(--jn-sage);
+  --jn-success-strong: var(--jn-sage-strong);
+  --jn-warning: var(--jn-brass);
+  --jn-warning-strong: var(--jn-brass-strong);
+  --jn-digital-accent: var(--jn-digital);
+  --jn-digital-accent-strong: var(--jn-digital-strong);
+
+  /* ===== الطباعة ===== */
+  --jn-font-arabic: 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, Arial, sans-serif;
+  --jn-font-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+
+  --jn-text-display: clamp(1.75rem, 1.35rem + 1.6vw, 2.6rem);
+  --jn-text-h1: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);
+  --jn-text-h2: clamp(1.15rem, 1.05rem + 0.35vw, 1.375rem);
+  --jn-text-h3: 1.05rem;
+  --jn-text-body: 0.95rem;
+  --jn-text-small: 0.8125rem;
+  --jn-text-mono: 0.8125rem;
+
+  --jn-leading-tight: 1.3;
+  --jn-leading-heading: 1.4;   /* عربي يحتاج line-height أعلى من اللاتيني حتى في العناوين */
+  --jn-leading-body: 1.85;
+  --jn-leading-mono: 1.5;
+
+  /* ===== المسافات ===== */
+  --jn-space-1: 4px;
+  --jn-space-2: 8px;
+  --jn-space-3: 12px;
+  --jn-space-4: 16px;
+  --jn-space-5: 24px;
+  --jn-space-6: 32px;
+  --jn-space-7: 48px;
+  --jn-space-8: 64px;
+
+  /* ===== الانحناء (بدون توحيد قسري — كل عائلة عناصر لها منطقها) ===== */
+  --jn-radius-sm: 3px;
+  --jn-radius-md: 6px;
+  --jn-radius-lg: 10px;
+  --jn-radius-full: 999px;
+
+  /* ===== الظلال ===== */
+  --jn-shadow-paper:
+    0 1px 2px rgba(0, 0, 0, 0.35),
+    0 10px 26px -10px rgba(0, 0, 0, 0.55);
+  --jn-shadow-panel:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 12px 32px -14px rgba(0, 0, 0, 0.65);
+  --jn-shadow-float:
+    0 4px 12px rgba(0, 0, 0, 0.3),
+    0 20px 48px -16px rgba(0, 0, 0, 0.7);
+  --jn-shadow-inset-digital: inset 0 0 0 1px rgba(95, 168, 163, 0.25), inset 0 0 24px rgba(95, 168, 163, 0.06);
+
+  /* ===== طبقات Z-Index ===== */
+  --jn-z-workspace: 10;
+  --jn-z-nav: 100;
+  --jn-z-header: 110;
+  --jn-z-popover: 200;
+  --jn-z-modal: 300;
+  --jn-z-toast: 400;
+
+  /* ===== الحركة ===== */
+  --jn-duration-micro: 120ms;
+  --jn-duration-base: 200ms;
+  --jn-duration-panel: 320ms;
+  --jn-ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+  --jn-ease-in: cubic-bezier(0.4, 0, 1, 1);
+
+  /* ===== نقاط الكسر (للاستخدام في تعليقات/منطق JS، القيمة الفعلية في media queries) ===== */
+  --jn-breakpoint-tablet: 641px;
+  --jn-breakpoint-desktop: 1025px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --jn-duration-micro: 0ms;
+    --jn-duration-base: 0ms;
+    --jn-duration-panel: 0ms;
+  }
+}
